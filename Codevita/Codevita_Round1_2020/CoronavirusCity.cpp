@@ -1,5 +1,4 @@
 // passed all public and private cases
-
 #include <iostream>
 using namespace std;
 int main()
