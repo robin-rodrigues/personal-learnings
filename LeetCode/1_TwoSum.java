@@ -1,3 +1,4 @@
+// 1. Pattern: Two Pointers [Pair with Target Sum (easy)]
 class Solution {
     public int[] twoSum(int[] nums, int target) {
 
