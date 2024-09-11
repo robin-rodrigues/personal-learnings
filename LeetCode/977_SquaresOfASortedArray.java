@@ -3,7 +3,7 @@ class Solution {
     public int[] sortedSquares(int[] nums) {
 
         int[] sorted = new int[nums.length];
-        int indexOfZero = 0;
+        int indexOfZero = (nums.length - 1);
 
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] >= 0) {
