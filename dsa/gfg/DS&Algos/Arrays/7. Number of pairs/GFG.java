@@ -1,0 +1,111 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+ {
+    // Function to return count of pairs with x as one element 
+    // of the pair. It mainly looks for all values in Y[] where 
+    // x ^ Y[i] > Y[i] ^ x 
+    static int count(int x, int Y[], int n, int NoOfY[]) 
+    { 
+        // If x is 0, then there cannot be any value in Y such that 
+        // x^Y[i] > Y[i]^x 
+        if (x == 0) return 0; 
+       
+        // If x is 1, then the number of pais is equal to number of 
+        // zeroes in Y[] 
+        if (x == 1) return NoOfY[0]; 
+       
+        // Find number of elements in Y[] with values greater than x 
+        // getting upperbound of x with binary search 
+        int idx = Arrays.binarySearch(Y, x); 
+        int ans; 
+        if(idx < 0){ 
+            idx = Math.abs(idx+1); 
+            ans = Y.length - idx; 
+        } 
+        else{ 
+            while (idx<n && Y[idx]==x) { 
+                idx++; 
+            } 
+            ans = Y.length - idx; 
+        } 
+       
+        // If we have reached here, then x must be greater than 1, 
+        // increase number of pairs for y=0 and y=1 
+        ans += (NoOfY[0] + NoOfY[1]); 
+       
+        // Decrease number of pairs for x=2 and (y=4 or y=3) 
+        if (x == 2)  ans -= (NoOfY[3] + NoOfY[4]); 
+       
+        // Increase number of pairs for x=3 and y=2 
+        if (x == 3)  ans += NoOfY[2]; 
+       
+        return ans; 
+    } 
+       
+    // Function to returns count of pairs (x, y) such that 
+    // x belongs to X[], y belongs to Y[] and x^y > y^x 
+    static long countPairs(int X[], int Y[], int m, int n) 
+    { 
+        // To store counts of 0, 1, 2, 3 and 4 in array Y 
+        int NoOfY[] = new int[5]; 
+        for (int i = 0; i < n; i++) 
+            if (Y[i] < 5) 
+                NoOfY[Y[i]]++; 
+       
+        // Sort Y[] so that we can do binary search in it 
+        Arrays.sort(Y); 
+       
+        long total_pairs = 0; // Initialize result 
+       
+        // Take every element of X and count pairs with it 
+        for (int i=0; i<m; i++) 
+            total_pairs += count(X[i], Y, n, NoOfY); 
+       
+        return total_pairs; 
+    } 
+    
+	public static void main (String[] args) throws IOException
+	 {
+	    //code your logic here
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    Scanner sc = new Scanner(System.in);
+	    
+		int t = Integer.parseInt(br.readLine());
+		
+	    while(t-->0){
+	        
+	        String line = br.readLine();
+	        int[] l = new int[2];
+	        int i= 0;
+	        for (String numStr: line.split("\\s")){
+				l[i] = Integer.parseInt(numStr);
+				i++;
+			}
+			
+			int m = l[0], n=l[1];
+	        
+	        
+	        int[] a = new int[m];
+	        int[] b = new int[n];
+	       
+	        String line1 = br.readLine();
+	        String line2 = br.readLine();
+	        
+			i = 0;
+			for (String numStr: line1.split("\\s")){
+				a[i] = Integer.parseInt(numStr);
+				i++;
+			}
+			
+			i = 0;
+			for (String numStr: line2.split("\\s")){
+				b[i] = Integer.parseInt(numStr);
+				i++;
+			}
+			
+			System.out.println(countPairs(a, b, a.length, b.length));
+	    }
+	 }
+}
